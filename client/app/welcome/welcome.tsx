@@ -33,8 +33,8 @@ export function Welcome() {// Initialize Firebase
   })
   return (
    <div className="flex my-3">
-   <button className="btn btn-soft btn-primary">Request Permission</button>
-   <button className="btn btn-soft btn-secondary">Reset UI</button>
+   <button className="btn btn-soft btn-primary m-2">Request Permission</button>
+   <button className="btn btn-soft btn-secondary m-2">Reset UI</button>
    </div>
   );
 }
