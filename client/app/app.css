@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @plugin "flyonui";
 @import "flyonui/variants.css";
-@source "../node_modules/flyonui/flyonui.js"; 
+@source "../node_modules/flyonui/flyonui.js";
 
 
 @theme {
@@ -16,4 +16,7 @@ body {
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+}
+body > * {
+  @apply rounded-none;
 }
