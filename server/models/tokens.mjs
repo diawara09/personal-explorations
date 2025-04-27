@@ -3,7 +3,8 @@ import mongoose, {Schema} from 'mongoose'
 const tokenSchema = new Schema({
     token: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     }
 },{timestamps: true})
 

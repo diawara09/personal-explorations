@@ -2,7 +2,18 @@ import express from 'express'
 import {} from 'dotenv/config'
 import mongoose from 'mongoose'
 import tokenRouter from './routes/tokens.mjs'
+import cors from 'cors'
 main().catch(err => console.log(err));
+
+const corsOptions = {
+    origin: [
+      "https://personal-explorations.vercel.app/",
+      'http://localhost:5173',
+    ],
+    
+    credentials: true,
+    optionsSuccessStatus: 200,
+  }
 
 async function main() {
   await mongoose.connect(process.env.MONGO_URI);
@@ -13,6 +24,7 @@ async function main() {
 
 const port = process.env.PORT || 3000
 const app = express()
+app.use(cors(corsOptions))
 
 app.use("/token", tokenRouter)
 
