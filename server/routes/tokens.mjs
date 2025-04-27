@@ -16,5 +16,40 @@ router.post("/", async(req,res) => {
         return res.send({error: error.message})
     }
 })
+router.get("/", async(req,res) => {
+    try {
+        const allTokens = await Token.find()
+        const lastToken = allTokens[allTokens.length - 1]
+        const data = {
+            message: {
+              token: lastToken.token,
+              notification: {
+                title: "Start your journey!",
+                body: "Suffering makes you beautiful!"
+              },
+              webpush: {
+                fcm_options: {
+                  link: "https://personal-explorations.vercel.app/"
+                }
+              }
+            }
+          }
+        const sendNotification = await fetch("https://fcm.googleapis.com//v1/projects/realtime-database-85a38/messages:send",{
+            method: "POST",
+            mode:"cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "bearer AIzaSyAzhoCSeWRGb2OBbXZM9Bzc9orgamZdeu0"
+            },
+            body: JSON.stringify(data)
+        })
+        const response = await sendNotification.json()
+        return res.send(response)
+    } catch (error) {
+        return res.send({error: error.message})
+    }
+})
+
+
 
 export default router
