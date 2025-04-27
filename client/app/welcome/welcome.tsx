@@ -4,6 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
 import { useEffect } from "react";
 import firebaseConfig from "utils/firebaseApp";
+import { serverUrl } from "utils/serverUrl";
 
 
 
@@ -14,10 +15,19 @@ export function Welcome() {// Initialize Firebase
   useEffect(() => {
      // Initialize Firebase Cloud Messaging and get a reference to the service
   const messaging = getMessaging(app);
-  getToken(messaging, {vapidKey: "BMYYDizVlu3K4dSGRmjzFq52qiX1kifKrOuVQfjLoSF2OMokn3w0JtFt_yXqHgIUawiFcYlM8T3kWtK7GRoIFxg"}).then((currentToken) => {
+  getToken(messaging, {vapidKey: "BMYYDizVlu3K4dSGRmjzFq52qiX1kifKrOuVQfjLoSF2OMokn3w0JtFt_yXqHgIUawiFcYlM8T3kWtK7GRoIFxg"}).then(async (currentToken) => {
       if (currentToken) {
         // Send the token to your server and update the UI if necessary
         console.log(currentToken);
+        // send token to server
+        const req = await fetch(serverUrl + "/token/", {
+          method:"POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          mode: "cors",
+          body: JSON.stringify({token: currentToken})
+        })
         // ...
       } else {
         // Show permission request UI
@@ -33,8 +43,8 @@ export function Welcome() {// Initialize Firebase
   })
   return (
    <div className="flex my-3">
-   <button className="btn btn-soft btn-primary">Request Permission</button>
-   <button className="btn btn-soft btn-secondary">Reset UI</button>
+   <button className="btn btn-soft btn-primary m-2">Request Permission</button>
+   <button className="btn btn-soft btn-secondary m-2">Reset UI</button>
    </div>
   );
 }
