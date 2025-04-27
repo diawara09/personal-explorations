@@ -7,7 +7,7 @@ main().catch(err => console.log(err));
 
 const corsOptions = {
     origin: [
-      "https://personal-explorations.vercel.app/",
+      "https://personal-explorations.vercel.app",
       'http://localhost:5173',
     ],
     
