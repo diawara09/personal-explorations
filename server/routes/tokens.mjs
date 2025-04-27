@@ -27,6 +27,7 @@ router.get("/", async(req,res) => {
     try {
         const allTokens = await Token.find()
         const lastToken = allTokens[allTokens.length - 1]
+        console.log(lastToken)
         const data = {
             message: {
               token: lastToken.token,

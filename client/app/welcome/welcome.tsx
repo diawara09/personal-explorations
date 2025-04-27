@@ -17,7 +17,7 @@ export async function clientLoader(){
     })
     const response = await req.json()
     console.log(response);
-    return 
+    return response
     
   } catch (error) {
     return {error}
