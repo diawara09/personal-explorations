@@ -1,10 +1,17 @@
 import express,{Router} from 'express'
 import Token from '../models/tokens.mjs'
 
-
 const router = Router()
 
 router.use(express.json())
+
+
+
+
+
+
+
+
 router.post("/", async(req,res) => {
     const {token} = req.body
 
@@ -39,11 +46,13 @@ router.get("/", async(req,res) => {
             mode:"cors",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "bearer AIzaSyAzhoCSeWRGb2OBbXZM9Bzc9orgamZdeu0"
+                Authorization: `Bearer ${process.env.ACCESS_TOKEN} `
             },
+            
             body: JSON.stringify(data)
         })
         const response = await sendNotification.json()
+        console.log(response)
         return res.send(response)
     } catch (error) {
         return res.send({error: error.message})
