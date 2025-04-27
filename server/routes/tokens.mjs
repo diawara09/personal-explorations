@@ -52,6 +52,7 @@ router.get("/", async(req,res) => {
             body: JSON.stringify(data)
         })
         const response = await sendNotification.json()
+        console.log(response)
         return res.send(response)
     } catch (error) {
         return res.send({error: error.message})
