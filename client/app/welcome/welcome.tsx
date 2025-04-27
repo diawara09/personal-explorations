@@ -29,10 +29,10 @@ export async function clientLoader(){
 export function Welcome() {// Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const [messages,setMessages] = useState([])
-  const messaging = getMessaging(app);
+
   useEffect(() => {
      // Initialize Firebase Cloud Messaging and get a reference to the service
- 
+     const messaging = getMessaging(app);
   getToken(messaging, {vapidKey: "BMYYDizVlu3K4dSGRmjzFq52qiX1kifKrOuVQfjLoSF2OMokn3w0JtFt_yXqHgIUawiFcYlM8T3kWtK7GRoIFxg"}).then(async (currentToken) => {
       if (currentToken) {
         // Send the token to your server and update the UI if necessary
