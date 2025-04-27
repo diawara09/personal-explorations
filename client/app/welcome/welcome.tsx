@@ -64,7 +64,6 @@ export function Welcome() {// Initialize Firebase
 
     onMessage(messaging, (payload) => {
       console.log('Message received. ', payload);
-   
       // ...
     });
 
