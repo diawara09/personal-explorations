@@ -12,49 +12,62 @@ import { serverUrl } from "utils/serverUrl";
 export function Welcome() {// Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const [messages,setMessages] = useState([])
+  const [resetUI, setResetUI] = useState(false)
+
+  function handlePermisiionBtnClick(){
+    console.log("Button clicked!!!");
+  }
+  async function sendToken(token: string){
+    const req = await fetch(serverUrl + "/token/", {
+      method:"POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: "cors",
+      body: JSON.stringify({token})
+    })
+    const response = await req.json()
+    return  response
+  }
 
   useEffect(() => {
      // Initialize Firebase Cloud Messaging and get a reference to the service
      const messaging = getMessaging(app);
+     
   getToken(messaging, {vapidKey: "BMYYDizVlu3K4dSGRmjzFq52qiX1kifKrOuVQfjLoSF2OMokn3w0JtFt_yXqHgIUawiFcYlM8T3kWtK7GRoIFxg"}).then(async (currentToken) => {
       if (currentToken) {
         // Send the token to your server and update the UI if necessary
         console.log(currentToken);
         // send token to server
-        const req = await fetch(serverUrl + "/token/", {
-          method:"POST",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          mode: "cors",
-          body: JSON.stringify({token: currentToken})
-        })
-        const response = await req.json()
-        console.log(response)
+        if(resetUI){
+          sendToken(currentToken)
+        }
 
         // ...
       } else {
         // Show permission request UI
         requestPermission();
+        setResetUI(true);
         console.log('No registration token available. Request permission to generate one.');
         // ...
       }
     }).catch((err) => {
       console.log('An error occurred while retrieving token. ', err);
       // ...
-    });
+    },);
 
 
     onMessage(messaging, (payload) => {
       console.log('Message received. ', payload);
+      setMessages([...messages,"Message received"])
       // ...
     });
 
-  })
+  },[resetUI])
   return (
    <div className="flex my-3">
     <div className="flex flex-col">
-      {messages.length > 0 ? messages.map(message => <span> {message} </span>) :''}
+      {messages.length > 0 ? messages.map(message => <span className="alert alert-success"> {message} </span>) :''}
     </div>
    <button className="btn btn-soft btn-primary m-2">Request Permission</button>
    <button className="btn btn-soft btn-secondary m-2">Reset UI</button>
