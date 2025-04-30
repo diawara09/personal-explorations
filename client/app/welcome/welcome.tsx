@@ -67,7 +67,7 @@ export function Welcome() {// Initialize Firebase
   return (
    <div className="flex my-3">
     <div className="flex flex-col">
-      {messages.length > 0 ? messages.map(message => <p className="alert alert-success"> {message} </p>) :''}
+      {messages.length > 0 ? messages.map(message => <p className="alert alert-success m-2"> {message} </p>) :''}
     </div>
    <button className="btn btn-soft btn-primary m-2">Request Permission</button>
    <button className="btn btn-soft btn-secondary m-2">Reset UI</button>
