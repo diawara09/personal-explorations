@@ -41,6 +41,7 @@ export async function clientAction({request}: Route.ClientActionArgs ){
     return { error: error.message }
     // ...
   });
+  return {msg: "Email Sent"}
 
 }
 export default function Login(){
