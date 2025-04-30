@@ -38,6 +38,7 @@ export async function clientAction({request}: Route.ClientActionArgs ){
   })
   .catch((error) => {
     const errorCode = error.code;
+    console.log(error);
     return { error: error.message }
     // ...
   });
