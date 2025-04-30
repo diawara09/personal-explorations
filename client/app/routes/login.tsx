@@ -18,21 +18,15 @@ export async function clientAction({request}: Route.ClientActionArgs ){
     url: 'https://personal-explorations.vercel.app/admin',
     // This must be true.
     handleCodeInApp: true,
-    iOS: {
-      bundleId: 'com.example.ios'
-    },
-    android: {
-      packageName: 'com.example.android',
-      installApp: true,
-      minimumVersion: '12'
-    },
+   
     // The domain must be configured in Firebase Hosting and owned by the project.
     //linkDomain: 'custom-domain.com'
   };
   const formData = await request.formData()
   const bodyObj = Object.fromEntries(formData)
   const email = bodyObj.email
-  const auth = getAuth();
+  console.log(email);
+  const auth = getAuth(app);
   sendSignInLinkToEmail(auth, email, actionCodeSettings)
   .then(() => {
     // The link was successfully sent. Inform the user.
