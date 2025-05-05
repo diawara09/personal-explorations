@@ -24,9 +24,7 @@ export default function Admin() {
       body: JSON.stringify({ email }),
     });
     const response = await req.json();
-    console.log(response);
-    if (response.error) setLoggedIn(false);
-    if (response.token) localStorage.setItem("token", response.token);
+    return response;
   }
   useEffect(() => {
     // Confirm the link is a sign-in with email link.
@@ -38,7 +36,7 @@ export default function Admin() {
       // the sign-in operation.
       // Get the email if available. This should be available if the user completes
       // the flow on the same device where they started it.
-      let email = localStorage.getItem("emailForSignIn");
+      let email = window.localStorage.getItem("emailForSignIn");
       if (!email) {
         // User opened the link on a different device. To prevent session fixation
         // attacks, ask the user to provide the associated email again. For example:
@@ -49,7 +47,7 @@ export default function Admin() {
         .then(async (result: any) => {
           console.log(result);
           // Clear email from storage.
-          localStorage.removeItem("emailForSignIn");
+          window.localStorage.removeItem("emailForSignIn");
 
           setLoggedIn(true);
           // You can access the new user by importing getAdditionalUserInfo
@@ -66,8 +64,11 @@ export default function Admin() {
           console.log(error);
         });
 
-      sendEmailToServerForSignUp(email).then((response) => {
-        console.log(response.json());
+      sendEmailToServerForSignUp(email).then((response: any) => {
+        console.log(response);
+        if (response.error) setLoggedIn(false);
+        if (response.token)
+          window.localStorage.setItem("token", response.token);
       });
     }
   });
