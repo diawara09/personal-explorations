@@ -32,7 +32,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
       // Save the email locally so you don't need to ask the user for it again
       // if they open the link on the same device.
       window.localStorage.setItem("emailForSignIn", email);
-      return { msg: "Email Sent" };
+      return { msg: "Email Sent", email: email };
       // ...
     })
     .catch((error) => {
@@ -47,6 +47,9 @@ export default function Login() {
   const fetcher = useFetcher();
   useEffect(() => {
     const toastOptions = { duration: 5000 };
+    if (fetcher.data && fetcher.data.email) {
+      window.localStorage.setItem("emailForSignIn", fetcher.data.email);
+    }
     fetcher.data
       ? fetcher.data.msg
         ? toast.success(fetcher.data.msg, toastOptions)
