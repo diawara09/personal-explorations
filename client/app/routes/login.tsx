@@ -26,6 +26,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const email = bodyObj.email;
   console.log(email);
   const auth = getAuth(app);
+  window.localStorage.setItem("emailForSignInTest", email);
   sendSignInLinkToEmail(auth, email, actionCodeSettings)
     .then(() => {
       // The link was successfully sent. Inform the user.
@@ -35,6 +36,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
       return { msg: "Email Sent", email: email };
       // ...
     })
+
     .catch((error) => {
       const errorCode = error.code;
       console.log(error);
